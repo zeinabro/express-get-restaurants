@@ -42,7 +42,7 @@ router.delete("/:id", async(req,res) => {
             id: req.params.id
         }
     })
-    res.json("Restaurant uccessfully deleted")
+    res.send("Restaurant successfully deleted")
 })
 
 module.exports = router
