@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const Restaurant = require("../models/index")
+const {Restaurant} = require("../models/index")
 const {check, validationResult} = require("express-validator")
 
 router.get("/", async(req,res)=>{
