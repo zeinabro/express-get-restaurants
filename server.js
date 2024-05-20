@@ -3,8 +3,6 @@ const db = require("./db/connection");
 const port = 3000;
 const restaurantRouter = require("./routes/restaurants")
 
-app.use("/restaurants", restaurantRouter)
-
 app.listen(port, () => {
     db.sync();
     console.log(`Listening at http://localhost:${port}/restaurants`);
