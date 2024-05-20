@@ -27,4 +27,15 @@ app.post("/restaurant", async(req,res) => {
     res.json(newRestaurant)
 })
 
+app.put("/restaurant/:id", async(req,res) => {
+    let restaurant = await Restaurant.findByPk(req.params.id)
+    const data = req.body
+    restaurant = await restaurant.update({
+        name: data.name,
+        location: data.location,
+        cuisine: data.cuisine
+    })
+    res.json(restaurant)
+})
+
 module.exports = app;
