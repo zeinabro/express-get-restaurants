@@ -38,4 +38,13 @@ app.put("/restaurant/:id", async(req,res) => {
     res.json(restaurant)
 })
 
+app.delete("/restaurant/:id", async(req,res) => {
+    await Restaurant.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    res.json("Restaurant uccessfully deleted")
+})
+
 module.exports = app;
