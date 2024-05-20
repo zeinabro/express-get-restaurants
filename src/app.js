@@ -14,4 +14,17 @@ app.get("/restaurants/:id", async(req,res) => {
     res.json(restaurant)
 })
 
+app.use(express.json())
+app.use(express.urlencoded())
+
+app.post("/restaurant", async(req,res) => {
+    const data = req.body
+    const newRestaurant = await Restaurant.create({
+        name: data.name,
+        location: data.location,
+        cuisine: data.cuisine
+    }) 
+    res.json(newRestaurant)
+})
+
 module.exports = app;
