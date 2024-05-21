@@ -22,7 +22,7 @@ describe("./restaurants endpoint", ()=>{
         expect(res.body.name).toBe(seedRestaurant[1].name)
     })
 
-    test("creates new restaurant", async() => {
+    test("creates new restaurant with valid name", async() => {
         const res = await request(app).post("/restaurants").send({
             name:"Zeinab's Restaurant",
             location:"London",
@@ -30,6 +30,24 @@ describe("./restaurants endpoint", ()=>{
         })
         expect(res.statusCode).toBe(200)
         expect(res.body.name).toBe("Zeinab's Restaurant")
+    })
+
+    test("does not create restaurant with invalid name", async() => {
+        const res = await request(app).post("/restaurants").send({
+            name:"Zeinab's Super Very Long Too Long Restaurant",
+            location:"London",
+            cuisine:"Lebanese"
+        })
+        expect(res.statusCode).toBe(400)
+        expect(res.body.error[0]).toEqual(
+            {
+                "type": "field",
+                "value": "Zeinab's Super Very Long Too Long Restaurant",
+                "msg": "Invalid value",
+                "path": "name",
+                "location": "body"
+            }
+        )
     })
 
     test("updates restaurant by id", async() => {

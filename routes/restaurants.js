@@ -28,14 +28,20 @@ router.get("/:id", async(req,res) => {
 router.use(express.json())
 router.use(express.urlencoded())
 
-router.post("/", async(req,res) => {
-    const data = req.body
-    const newRestaurant = await Restaurant.create({
-        name: data.name,
-        location: data.location,
-        cuisine: data.cuisine
-    }) 
-    res.json(newRestaurant)
+router.post("/", [check("name").isLength({min:10,max:30})] ,async(req,res) => {
+
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        res.status(400).json({error: errors.array()})
+    } else {
+        const data = req.body
+        const newRestaurant = await Restaurant.create({
+            name: data.name,
+            location: data.location,
+            cuisine: data.cuisine
+        }) 
+        res.json(newRestaurant)
+    }
 })
 
 router.put("/:id", async(req,res) => {
