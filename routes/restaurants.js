@@ -28,8 +28,13 @@ router.get("/:id", async(req,res) => {
 router.use(express.json())
 router.use(express.urlencoded())
 
-router.post("/", [check("name").isLength({min:10,max:30})] ,async(req,res) => {
+const validator = [
+    check("name").isLength({min:10,max:30}),
+    check("location").trim().not().isEmpty(),
+    check("cuisine").trim().not().isEmpty()
+]
 
+router.post("/", validator, async(req,res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         res.status(400).json({error: errors.array()})

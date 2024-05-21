@@ -32,11 +32,11 @@ describe("./restaurants endpoint", ()=>{
         expect(res.body.name).toBe("Zeinab's Restaurant")
     })
 
-    test("does not create restaurant with invalid name", async() => {
+    test("does not create restaurant with invalid values", async() => {
         const res = await request(app).post("/restaurants").send({
             name:"Zeinab's Super Very Long Too Long Restaurant",
-            location:"London",
-            cuisine:"Lebanese"
+            location:" ",
+            cuisine:" "
         })
         expect(res.statusCode).toBe(400)
         expect(res.body.error[0]).toEqual(
@@ -45,6 +45,24 @@ describe("./restaurants endpoint", ()=>{
                 "value": "Zeinab's Super Very Long Too Long Restaurant",
                 "msg": "Invalid value",
                 "path": "name",
+                "location": "body"
+            }
+        )
+        expect(res.body.error[1]).toEqual(
+            {
+                "type": "field",
+                "value": "",
+                "msg": "Invalid value",
+                "path": "location",
+                "location": "body"
+            },
+        )
+        expect(res.body.error[2]).toEqual(
+            {
+                "type": "field",
+                "value": "",
+                "msg": "Invalid value",
+                "path": "cuisine",
                 "location": "body"
             }
         )
